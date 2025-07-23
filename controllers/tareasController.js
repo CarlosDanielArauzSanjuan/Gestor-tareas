@@ -172,3 +172,54 @@ export async function eliminarTarea() {
 
   console.log('🗑️ Tarea eliminada.');
 }
+
+/**
+ * Marca una o varias tareas como completadas.
+ * - Muestra solo tareas pendientes.
+ * - Permite selección múltiple.
+ * - Actualiza estado y guarda en archivo.
+ */
+export async function completarTarea() {
+  const tareas = leerTareas();
+
+  // Filtrar solo tareas pendientes (no completadas)
+  const pendientes = tareas.filter(t => !t.completada);
+
+  // Si no hay tareas pendientes, salir
+  if (_.isEmpty(pendientes)) {
+    console.log('🎉 No hay tareas pendientes. ¡Buen trabajo!');
+    return;
+  }
+
+  // Mostrar lista de pendientes para seleccionar múltiples
+  const { indicesSeleccionados } = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'indicesSeleccionados',
+      message: 'Selecciona las tareas que ya completaste:',
+      choices: pendientes.map((tarea, index) => ({
+        name: tarea.descripcion,
+        value: tarea.id // usamos ID para asegurar unicidad
+      }))
+    }
+  ]);
+
+  // Si no se selecciona ninguna, salir
+  if (_.isEmpty(indicesSeleccionados)) {
+    console.log('🔄 No seleccionaste ninguna tarea.');
+    return;
+  }
+
+  // Actualizar estado a 'completada: true' en las seleccionadas
+  const tareasActualizadas = tareas.map(t => {
+    if (indicesSeleccionados.includes(t.id)) {
+      return { ...t, completada: true };
+    }
+    return t;
+  });
+
+  // Guardar tareas actualizadas
+  guardarTareas(tareasActualizadas);
+
+  console.log('✅ Tareas marcadas como completadas.');
+}
