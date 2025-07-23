@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": 1753293153610,
+    "descripcion": "Subir el repositorio a GitHub",
+    "completada": true
+  },
+  {
+    "id": 1753293196329,
+    "descripcion": "Estudiar para el proyecto y examen final",
+    "completada": false
+  },
+  {
+    "id": 1753293218646,
+    "descripcion": "subir la excusa medica para las inasistencias del modulo de Node.js",
+    "completada": false
+  }
+]

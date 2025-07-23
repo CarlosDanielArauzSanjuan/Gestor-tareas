@@ -1,3 +1,29 @@
 node_modules/
 *.log
 src/data/*.json
+
+# Node.js
+node_modules/
+.env
+dist/
+coverage/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# DB temporal o backups
+*.sqlite
+*.bak
+*.tmp
+
+# IDE/editor config
+.vscode/
+.idea/
+
+# Archivos de pruebas
+*.test.js
