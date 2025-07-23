@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
 import _ from 'lodash';
+import chalk from 'chalk';
 import { leerTareas, guardarTareas } from '../utils/archivo.js';
 
 /**
@@ -20,7 +21,7 @@ export async function agregarTarea() {
 
   // Validar que la descripción no esté vacía o solo contenga espacios
   if (_.isEmpty(descripcion.trim())) {
-    console.log('⚠️ La descripción no puede estar vacía.');
+    console.log(chalk.yellow('⚠️ La descripción no puede estar vacía.'));
     return;
   }
 
@@ -40,7 +41,7 @@ export async function agregarTarea() {
   // Guardar en archivo
   guardarTareas(nuevasTareas);
 
-  console.log('✅ Tarea agregada.');
+  console.log(chalk.green('✅ Tarea agregada.'));
 }
 
 /**
@@ -53,19 +54,19 @@ export function listarTareas() {
 
   // Verificar si el archivo está vacío
   if (_.isEmpty(tareas)) {
-    console.log('📭 No hay tareas registradas.');
+    console.log(chalk.red('📭 No hay tareas registradas.'));
     return;
   }
 
   // Ordenar: primero tareas no completadas, luego completadas, y por descripción
   const ordenadas = _.orderBy(tareas, ['completada', 'descripcion'], ['asc', 'asc']);
 
-  console.log('\n📋 Lista de tareas:');
+  console.log(chalk.gray('\n📋 Lista de tareas:'));
 
   // Mostrar cada tarea con su índice y estado
   ordenadas.forEach((tarea, i) => {
     const estado = tarea.completada ? '✅' : '❌';
-    console.log(`${i + 1}. [${estado}] ${tarea.descripcion}`);
+    console.log(chalk.blue(`${i + 1}. [${estado}] ${tarea.descripcion}`));
   });
 }
 
@@ -80,7 +81,7 @@ export async function editarTarea() {
 
   // Si no hay tareas, no se puede editar
   if (_.isEmpty(tareas)) {
-    console.log('⚠️ No hay tareas para editar.');
+    console.log(chalk.yellow('⚠️ No hay tareas para editar.'));
     return;
   }
 
@@ -108,7 +109,7 @@ export async function editarTarea() {
 
   // Validar entrada
   if (_.isEmpty(nuevaDescripcion.trim())) {
-    console.log('⚠️ La descripción no puede estar vacía.');
+    console.log(chalk.yellow('⚠️ La descripción no puede estar vacía.'));
     return;
   }
 
@@ -118,7 +119,7 @@ export async function editarTarea() {
   // Guardar tareas con la modificación
   guardarTareas(tareas);
 
-  console.log('✏️ Tarea actualizada.');
+  console.log(chalk.green('✏️ Tarea actualizada.'));
 }
 
 /**
@@ -132,7 +133,7 @@ export async function eliminarTarea() {
 
   // No hay tareas para eliminar
   if (_.isEmpty(tareas)) {
-    console.log('⚠️ No hay tareas para eliminar.');
+    console.log(chalk.yellow('⚠️ No hay tareas para eliminar.'));
     return;
   }
 
@@ -160,7 +161,7 @@ export async function eliminarTarea() {
 
   // Si no confirma, cancelar operación
   if (!confirmar) {
-    console.log('❌ Operación cancelada.');
+    console.log(chalk.red('❌ Operación cancelada.'));
     return;
   }
 
@@ -170,7 +171,7 @@ export async function eliminarTarea() {
   // Guardar lista actualizada
   guardarTareas(tareas);
 
-  console.log('🗑️ Tarea eliminada.');
+ console.log(chalk.brown('🗑️ Tarea eliminada.'));
 }
 
 /**
@@ -187,7 +188,7 @@ export async function completarTarea() {
 
   // Si no hay tareas pendientes, salir
   if (_.isEmpty(pendientes)) {
-    console.log('🎉 No hay tareas pendientes. ¡Buen trabajo!');
+    console.log(chalk.green('🎉 No hay tareas pendientes. ¡Buen trabajo!'));
     return;
   }
 
@@ -206,7 +207,7 @@ export async function completarTarea() {
 
   // Si no se selecciona ninguna, salir
   if (_.isEmpty(indicesSeleccionados)) {
-    console.log('🔄 No seleccionaste ninguna tarea.');
+    console.log(chalk.orange('🔄 No seleccionaste ninguna tarea.'));
     return;
   }
 
@@ -221,5 +222,6 @@ export async function completarTarea() {
   // Guardar tareas actualizadas
   guardarTareas(tareasActualizadas);
 
-  console.log('✅ Tareas marcadas como completadas.');
+  console.log(chalk.green('✅ Tareas marcadas como completadas.'));
 }
+
